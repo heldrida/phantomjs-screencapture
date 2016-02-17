@@ -24,18 +24,36 @@ for (var x = 0; x < list.length; x++) {
 
 }
 
-// save screenshots
-for (var i = 0; i < 10; i++) {
+// solution
+// http://stackoverflow.com/questions/26681464/looping-over-urls-to-do-the-same-thing/26681840#26681840
 
-	(function (file) {
+function handle_page(url, file){
 
-		var url = 'http://magnolia/louboutin/pages/' + file;
+    page.open(url, function (status) {
 
-		page.open(url, function() {
-			page.render('./screenshots/' + file.replace("php", "") + '.png');
-			phantom.exit();
-		});
+		console.log(status);
 
-	}(pages[i]));
+		if (status !== 'success') {
+			console.log('Failed to load the url (' + url + ')!');
+		}
 
+		page.render('./screenshots/' + file.replace(".php", "") + '.jpg');
+
+		next_page();
+
+    });
 }
+
+function next_page (){
+
+    var file = pages.shift();
+
+    if (!file) {
+        phantom.exit(0);
+    }
+
+	var url = 'http://magnolia/louboutin/pages/' + file;
+    handle_page(url, file);
+}
+
+next_page();
