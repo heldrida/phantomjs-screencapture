@@ -9,8 +9,8 @@ var fs = require('fs');
 var page = require('webpage').create();
 page.settings.userAgent = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/37.0.2062.120 Safari/537.36';
 page.viewportSize = {
-  width: 1025,
-  height: 768
+  width: 1440,
+  height: 900
 };
 
 // properties
@@ -36,15 +36,19 @@ function handle_page(url, file){
 
     page.open(url, function (status) {
 
-		console.log(status);
+    	setTimeout(function () {
 
-		if (status !== 'success') {
-			console.log('Failed to load the url (' + url + ')!');
-		}
+			console.log(status);
 
-		page.render('./screenshots/' + file.replace(".php", "") + '.jpg');
+			if (status !== 'success') {
+				console.log('Failed to load the url (' + url + ')!');
+			}
 
-		next_page();
+			page.render('./screenshots/' + file.replace(".php", "") + '.jpg');
+
+			next_page();
+
+    	}, 2000);
 
     });
 }
